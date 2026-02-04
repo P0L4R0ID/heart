@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love! ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset and basic setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Soft pink gradient background */
+            background: linear-gradient(135deg, #ffe6fa 0%, #ffd1dc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Hide scrollbars for the animation */
+        }
+
+        /* The container for the main content */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+            z-index: 10; /* Keep on top of falling hearts */
+            max-width: 90%;
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* Styling the GIF container */
+        .gif-container {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Styling the Text Box */
+        #text {
+            background-color: #ff6f91;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 111, 145, 0.4);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive; /* Cursive font */
+            font-size: 1.8rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        /* Animation for the container popping in */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- BACKGROUND FALLING HEARTS ANIMATION --- */
+        .heart {
+            position: absolute;
+            top: -10vh;
+            color: #ff8fab;
+            font-size: 1.5rem;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .tenor-gif-embed{
+            height:400px;
+            width:400px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="gif-container">
+            <img src="peach-and-goma-hugging.gif" alt="Cute Hug" class="gif-image">
+        </div>
+
+        <div id="text">
+            <h1>YAY! I KNEW YOU WOULD CHOOSE YES! ❤</h1>
+        </div>
+    </div>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s"; // between 3 and 5s
+            heart.style.fontSize = Math.random() * 20 + 20 + "px"; // varies size
+            heart.style.opacity = Math.random() * 0.5 + 0.3; // varies opacity
+            
+            document.body.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Create a heart every 300ms
+        setInterval(createHeart, 300);
+    </script>
+
+</body>
+</html>
