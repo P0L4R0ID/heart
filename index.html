@@ -114,8 +114,13 @@
             text-align: center;
             z-index: 2000;
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 80%; /* Responsive width */
+            width: 80%;
             max-width: 400px;
+            height: 400px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         #final-msg.show {
@@ -129,10 +134,51 @@
             font-size: 28px;
         }
 
+        .button-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between buttons */
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Nunito', sans-serif;
+            transition: transform 0.2s;
+            position: relative; /* Default for Yes button */
+            z-index: 2001; /* Make sure buttons are clickable */
+        }
+
+        #yes-button {
+            background-color: #ff4757;
+            color: white;
+        }
+        
+        #yes-button:hover {
+            transform: scale(1.1);
+        }
+
+        #no-button {
+            background-color: #f1f2f6;
+            color: #555;
+            position: relative; 
+            transition: top 0.3s ease, left 0.3s ease; 
+        }
+
         #final-msg .heart { 
             font-size: 60px; 
             color: #ff4757; 
             animation: heartbeat 1.5s infinite;
+            position: absolute;
+            bottom: 20px;
+            pointer-events: none; /* Make sure heart doesn't block clicks */
         }
 
         @keyframes heartbeat {
@@ -150,21 +196,44 @@
 
     <div id="final-msg">
         <h1>Would you go on a date with me?</h1>
+
+        <div class="button-box">
+            <button id="yes-button" class="btn" onclick="window.location.href='love.html'"> Yes </button>
+            <button id="no-button" class="btn"> No </button>
+        </div>
+        
         <div class="heart">❤</div>
     </div>
 
     <script>
-        const NUM_WINDOWS = 60; 
+        const NUM_WINDOWS = 100; 
         const SPEED = 0.01;     
-        const SPAWN_DELAY = 70;
+        const SPAWN_DELAY = 120;
 
         const MESSAGES = [
-            "我爱你！", "Every time I see you, my whole day gets brighter.",
+            "我爱你！", "心想事成", "天冷了 多穿衣服！","别感冒了！","照顾好自己！","祝你天天开心!",
+            "好好吃饭！","保持好心情！","多保持微笑！","美死我了！","我好想你!","你是我的舒适区 ❤!",
+            "你的笑容融化了我的心！", "有你真好！", "你是我遇见最美的风景!", "与你相遇，好幸运!", "你是我的小太阳!"
+            , "有你在真好","你是独一无二的 !", "你比奶茶还甜"
+            
+            /*"Every time I see you, my whole day gets brighter.",
             "You shine my day everytime I see you!", "I MISS YOU !",      
             "Your presence alone makes everything feel right.", "I LOVE YOU ❤ !",
             "You’re the reason I smile for no reason.", "You're Unforgettable",
-            "You're my favourite part of every day.", "Thinking of you...",
-            "Forever & Always", "My Happy Place", "You + Me", "Perfect Match"
+            "You're my favourite part of every day.", "stay Hydrated !", 
+            "You're my Comfort Zone", "Your Smile melts me ", "You're an Angel !"*/
+        ];
+
+        const COLORS = [
+            '#ffadad', // Pastel Red
+            '#ffd6a5', // Pastel Orange
+            '#fdffb6', // Pastel Yellow
+            '#caffbf', // Pastel Green
+            '#9bf6ff', // Pastel Cyan
+            '#a0c4ff', // Pastel Blue
+            '#bdb2ff', // Pastel Purple
+            '#ffc6ff', // Pastel Pink
+            '#fffffc'  // Off White
         ];
 
         let windows = [];
@@ -215,6 +284,11 @@
             let div = document.createElement('div');
             div.className = 'window';
             div.innerText = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+            
+            const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+            div.style.background = randomColor; // This overrides the CSS white background
+            
+            
             div.style.left = startX + 'px';
             div.style.top = startY + 'px';
             document.body.appendChild(div);
@@ -257,6 +331,37 @@
                 setTimeout(() => document.getElementById('final-msg').classList.add('show'), 500);
             }
         }
+
+const noBtn = document.getElementById('no-button');
+        const finalMsg = document.getElementById('final-msg');
+
+        function moveButton() {
+            // 1. Get the width and height of the box
+            const containerWidth = finalMsg.offsetWidth;
+            const containerHeight = finalMsg.offsetHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // 2. Calculate a random position
+            // We subtract button size and padding (20px) to keep it inside
+            const maxLeft = containerWidth - btnWidth - 20;
+            const maxTop = containerHeight - btnHeight - 20;
+
+            const newLeft = Math.floor(Math.random() * maxLeft);
+            const newTop = Math.floor(Math.random() * maxTop);
+
+            // 3. CRITICAL: Clear 'bottom' so 'top' can work
+            noBtn.style.position = 'absolute'; 
+            
+            // 4. Apply new positions
+            // Ensure we don't get negative numbers
+            noBtn.style.left = Math.max(0, newLeft) + 'px';
+            noBtn.style.top = Math.max(0, newTop) + 'px';
+        }
+
+        // Attach event listeners
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', moveButton); // For mobile phones
     </script>
 </body>
 </html>
